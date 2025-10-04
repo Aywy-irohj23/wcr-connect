@@ -618,18 +618,22 @@ export default function ReservistDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen" style={{ backgroundColor: '#0f1419' }}>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="shadow-lg border-b" style={{ backgroundColor: '#2a3441', borderColor: '#6b7c8f' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">WCR</span>
+              <div className="w-64 h-64 flex items-center justify-center">
+                <img 
+                  src="/src/assets/51a0c983-862f-436f-9140-f8ef760dc1d2-removebg-preview.ico" 
+                  alt="WCR Logo" 
+                  className="w-64 h-64 object-contain"
+                />
               </div>
               <div className="flex items-center space-x-2">
-                <User className="w-6 h-6 text-gray-700" />
-                <h1 className="text-2xl font-bold text-gray-900">Dashboard Rezerwisty</h1>
+                <User className="w-6 h-6" style={{ color: '#6b7c8f' }} />
+                <h1 className="text-2xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Dashboard Rezerwisty</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -649,7 +653,7 @@ export default function ReservistDashboard() {
                 
                 {/* Notifications Dropdown */}
                 {showNotificationDropdown && (
-                  <div className="absolute right-0 top-12 w-80 bg-white rounded-2xl shadow-xl border border-gray-200 z-50">
+                  <div className="absolute right-0 top-12 w-80 rounded-2xl shadow-xl border z-50" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                     <div className="p-4 border-b border-gray-200">
                       <h3 className="font-semibold text-gray-900">Powiadomienia</h3>
                     </div>
@@ -734,17 +738,37 @@ export default function ReservistDashboard() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style={{ backgroundColor: '#0f1419' }}>
         {/* Tab Navigation */}
         <div className="mb-8">
-          <div className="flex flex-wrap gap-2 bg-gray-100 p-1 rounded-2xl">
+          <div className="flex flex-wrap gap-2 p-2 rounded-2xl" style={{ backgroundColor: '#2a3441' }}>
             <button
               onClick={() => setActiveTab('overview')}
               className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 ${
                 activeTab === 'overview' 
-                  ? 'bg-white text-black shadow-lg' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'shadow-lg' 
+                  : ''
               }`}
+              style={{
+                backgroundColor: activeTab === 'overview' ? '#6b7c8f' : 'transparent',
+                color: activeTab === 'overview' ? 'white' : '#8b9aab',
+                fontFamily: 'Cooper Hewitt, sans-serif',
+                border: activeTab === 'overview' ? '2px solid #5a6b7d' : '2px solid transparent'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== 'overview') {
+                  e.currentTarget.style.backgroundColor = '#5a6b7d';
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.border = '2px solid #6b7c8f';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== 'overview') {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#8b9aab';
+                  e.currentTarget.style.border = '2px solid transparent';
+                }
+              }}
             >
               <TrendingUp className="w-4 h-4" />
               <span>Przegląd</span>
@@ -834,11 +858,11 @@ export default function ReservistDashboard() {
           <div className="space-y-8">
             {/* Personal Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Otrzymane wiadomości</p>
-                    <p className="text-3xl font-bold text-gray-900">{personalStats.messagesReceived}</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Otrzymane wiadomości</p>
+                    <p className="text-3xl font-bold" style={{ color: 'white' }}>{personalStats.messagesReceived}</p>
                   </div>
                   <div className="p-3 bg-blue-100 rounded-full">
                     <MessageSquare className="w-6 h-6 text-blue-600" />
@@ -846,11 +870,11 @@ export default function ReservistDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Wysłane odpowiedzi</p>
-                    <p className="text-3xl font-bold text-gray-900">{personalStats.responsesSent}</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Wysłane odpowiedzi</p>
+                    <p className="text-3xl font-bold" style={{ color: 'white' }}>{personalStats.responsesSent}</p>
                   </div>
                   <div className="p-3 bg-green-100 rounded-full">
                     <CheckCircle className="w-6 h-6 text-green-600" />
@@ -858,11 +882,11 @@ export default function ReservistDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Frekwencja</p>
-                    <p className="text-3xl font-bold text-gray-900">{personalStats.attendanceRate}%</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Frekwencja</p>
+                    <p className="text-3xl font-bold" style={{ color: 'white' }}>{personalStats.attendanceRate}%</p>
                   </div>
                   <div className="p-3 bg-purple-100 rounded-full">
                     <Clock className="w-6 h-6 text-purple-600" />
@@ -870,12 +894,12 @@ export default function ReservistDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Aktualny stopień</p>
-                    <p className="text-xl font-bold text-gray-900">{personalStats.currentRank}</p>
-                    <p className="text-sm text-gray-500">{personalStats.pointsToNextRank} pkt do następnego</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Aktualny stopień</p>
+                    <p className="text-xl font-bold" style={{ color: 'white' }}>{personalStats.currentRank}</p>
+                    <p className="text-sm" style={{ color: '#8b9aab' }}>{personalStats.pointsToNextRank} pkt do następnego</p>
                   </div>
                   <div className="p-3 bg-yellow-100 rounded-full">
                     <Award className="w-6 h-6 text-yellow-600" />
@@ -885,8 +909,8 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Szybkie akcje</h2>
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Szybkie akcje</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {quickActions.map((action) => (
                   <button
@@ -907,8 +931,8 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Ostatnia aktywność</h2>
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Ostatnia aktywność</h2>
               <div className="space-y-4">
                 {notifications.slice(0, 5).map((notification) => (
                   <div 
@@ -938,17 +962,18 @@ export default function ReservistDashboard() {
         {activeTab === 'inbox' && (
           <div className="space-y-8">
             {/* Search and Filters */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+            <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#8b9aab' }} />
                     <input
                       type="text"
                       placeholder="Szukaj wiadomości..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      style={{ backgroundColor: '#1a2332', borderColor: '#5a6b7d', color: 'white' }}
                     />
                   </div>
                 </div>
@@ -991,11 +1016,15 @@ export default function ReservistDashboard() {
                       onClick={() => setSelectedMessage(message)}
                       className={`rounded-xl p-6 cursor-pointer transition-colors border-2 ${
                         message.status === 'acknowledged' 
-                          ? 'bg-green-50 border-green-200 hover:bg-green-100' 
+                          ? 'hover:bg-green-100' 
                           : message.status === 'declined'
-                          ? 'bg-red-50 border-red-200 hover:bg-red-100'
-                          : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                          ? 'hover:bg-red-100'
+                          : 'hover:bg-gray-100'
                       }`}
+                      style={{ 
+                        backgroundColor: '#2a3441', 
+                        borderColor: '#5a6b7d'
+                      }}
                     >
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center space-x-2">
@@ -1015,12 +1044,12 @@ export default function ReservistDashboard() {
                             </span>
                           )}
                         </div>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm" style={{ color: '#8b9aab' }}>
                           {new Date(message.datetime).toLocaleString()}
                         </span>
                       </div>
-                      <h3 className="font-bold text-gray-900 mb-2">{message.title}</h3>
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+                      <h3 className="font-bold mb-2" style={{ color: 'white' }}>{message.title}</h3>
+                      <div className="flex items-center space-x-4 text-sm mb-3" style={{ color: '#8b9aab' }}>
                         <div className="flex items-center space-x-1">
                           <User className="w-4 h-4" />
                           <span>{message.sender}</span>
@@ -1035,7 +1064,7 @@ export default function ReservistDashboard() {
                         </div>
                       </div>
                       {message.attachments.length > 0 && (
-                        <div className="flex items-center space-x-1 text-sm text-gray-500">
+                        <div className="flex items-center space-x-1 text-sm" style={{ color: '#8b9aab' }}>
                           <Paperclip className="w-4 h-4" />
                           <span>{message.attachments.length} załącznik(ów)</span>
                         </div>
@@ -1051,8 +1080,8 @@ export default function ReservistDashboard() {
         {/* News Tab */}
         {activeTab === 'news' && (
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Aktualności wojskowe</h2>
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Aktualności wojskowe</h2>
               <div className="space-y-6">
                 {newsFeed.map((news) => (
                   <div key={news.id} className="border border-gray-200 rounded-xl p-6 hover:bg-gray-50 transition-colors">
@@ -1064,9 +1093,9 @@ export default function ReservistDashboard() {
                         {news.priority}
                       </span>
                     </div>
-                    <h3 className="font-bold text-gray-900 mb-2 text-lg">{news.title}</h3>
-                    <p className="text-gray-600 mb-3">{news.content}</p>
-                    <span className="text-sm text-gray-500">
+                    <h3 className="font-bold mb-2 text-lg" style={{ color: 'white' }}>{news.title}</h3>
+                    <p className="mb-3" style={{ color: '#8b9aab' }}>{news.content}</p>
+                    <span className="text-sm" style={{ color: '#8b9aab' }}>
                       {news.timestamp.toLocaleString()}
                     </span>
                   </div>
@@ -1079,8 +1108,8 @@ export default function ReservistDashboard() {
         {/* Calendar Tab */}
         {activeTab === 'calendar' && (
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Nadchodzące wydarzenia</h2>
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Nadchodzące wydarzenia</h2>
               <div className="space-y-4">
                 {calendarEvents.map((event) => (
                   <div key={event.id} className="border border-gray-200 rounded-xl p-6 hover:bg-gray-50 transition-colors">
@@ -1093,8 +1122,8 @@ export default function ReservistDashboard() {
                         {event.status}
                       </span>
                     </div>
-                    <h3 className="font-bold text-gray-900 mb-2 text-lg">{event.title}</h3>
-                    <div className="flex items-center space-x-4 text-sm text-gray-600">
+                    <h3 className="font-bold mb-2 text-lg" style={{ color: 'white' }}>{event.title}</h3>
+                    <div className="flex items-center space-x-4 text-sm" style={{ color: '#8b9aab' }}>
                       <div className="flex items-center space-x-1">
                         <Calendar className="w-4 h-4" />
                         <span>{event.date.toLocaleDateString()}</span>
@@ -1119,10 +1148,10 @@ export default function ReservistDashboard() {
         {activeTab === 'analytics' && (
           <div className="space-y-8">
             {/* Performance Heatmap */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
-                <BarChart3 className="w-6 h-6 text-blue-600" />
-                <h2 className="text-xl font-bold text-gray-900">Mapa cieplna aktywności</h2>
+                <BarChart3 className="w-6 h-6" style={{ color: '#6b7c8f' }} />
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Mapa cieplna aktywności</h2>
               </div>
               <div className="grid grid-cols-7 gap-2 mb-4">
                 {Array.from({ length: 35 }, (_, i) => (
@@ -1154,36 +1183,36 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Group Comparison */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <Users className="w-6 h-6 text-purple-600" />
-                <h2 className="text-xl font-bold text-gray-900">Porównanie z grupą</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Porównanie z grupą</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-purple-600 mb-2">#{groupComparison.rank}</div>
-                  <div className="text-sm text-gray-600">Pozycja w rankingu</div>
+                  <div className="text-sm" style={{ color: '#8b9aab' }}>Pozycja w rankingu</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-green-600 mb-2">{groupComparison.percentile}%</div>
-                  <div className="text-sm text-gray-600">Percentyl</div>
+                  <div className="text-sm" style={{ color: '#8b9aab' }}>Percentyl</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-2">{groupComparison.totalReservists}</div>
-                  <div className="text-sm text-gray-600">Łącznie rezerwistów</div>
+                  <div className="text-sm" style={{ color: '#8b9aab' }}>Łącznie rezerwistów</div>
                 </div>
               </div>
             </div>
 
             {/* Predictive Analytics */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <Brain className="w-6 h-6 text-orange-600" />
-                <h2 className="text-xl font-bold text-gray-900">Analityka predykcyjna</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Analityka predykcyjna</h2>
               </div>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Prawdopodobieństwo wezwania</span>
+                  <span style={{ color: '#8b9aab' }}>Prawdopodobieństwo wezwania</span>
                   <span className="text-2xl font-bold text-orange-600">{predictiveData.nextExerciseProbability}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
@@ -1192,15 +1221,15 @@ export default function ReservistDashboard() {
                     style={{ width: `${predictiveData.nextExerciseProbability}%` }}
                   ></div>
                 </div>
-                <p className="text-sm text-gray-600 mt-2">{predictiveData.recommendation}</p>
+                <p className="text-sm mt-2" style={{ color: '#8b9aab' }}>{predictiveData.recommendation}</p>
               </div>
             </div>
 
             {/* Attendance Trends */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <TrendingUp className="w-6 h-6 text-green-600" />
-                <h2 className="text-xl font-bold text-gray-900">Trendy frekwencji</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Trendy frekwencji</h2>
               </div>
               <div className="grid grid-cols-6 gap-4">
                 {['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'].map((month, index) => (
@@ -1219,10 +1248,10 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Response Time Analytics */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <Timer className="w-6 h-6 text-red-600" />
-                <h2 className="text-xl font-bold text-gray-900">Analityka czasu odpowiedzi</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Analityka czasu odpowiedzi</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="text-center">
@@ -1250,10 +1279,10 @@ export default function ReservistDashboard() {
         {activeTab === 'community' && (
           <div className="space-y-8">
             {/* Military Unit Chat */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
-                <MessageCircle className="w-6 h-6 text-blue-600" />
-                <h2 className="text-xl font-bold text-gray-900">Czat Jednostki Wojskowej</h2>
+                <MessageCircle className="w-6 h-6" style={{ color: '#6b7c8f' }} />
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Czat Jednostki Wojskowej</h2>
                 <div className="flex items-center space-x-1 bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs">
                   <Lock className="w-3 h-3" />
                   <span>Szyfrowany</span>
@@ -1338,8 +1367,8 @@ export default function ReservistDashboard() {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <span className="font-semibold text-gray-900">{msg.sender}</span>
-                          <span className="text-xs text-gray-500">{msg.timestamp.toLocaleTimeString()}</span>
+                          <span className="font-semibold" style={{ color: 'white' }}>{msg.sender}</span>
+                          <span className="text-xs" style={{ color: '#8b9aab' }}>{msg.timestamp.toLocaleTimeString()}</span>
                         </div>
                         {msg.type === 'invitation' && msg.invitation ? (
                           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -1365,7 +1394,7 @@ export default function ReservistDashboard() {
                             </div>
                           </div>
                         ) : (
-                          <p className="text-gray-700">{msg.message}</p>
+                          <p style={{ color: '#8b9aab' }}>{msg.message}</p>
                         )}
                       </div>
                     </div>
@@ -1379,7 +1408,8 @@ export default function ReservistDashboard() {
                   value={newChatMessage}
                   onChange={(e) => setNewChatMessage(e.target.value)}
                   placeholder="Napisz wiadomość..."
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  style={{ backgroundColor: '#1a2332', borderColor: '#5a6b7d', color: 'white' }}
                 />
                 <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 transition-colors">
                   <Send className="w-4 h-4" />
@@ -1388,10 +1418,10 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Friends & Connections */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <Users className="w-6 h-6 text-green-600" />
-                <h2 className="text-xl font-bold text-gray-900">Znajomi i połączenia</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Znajomi i połączenia</h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1406,12 +1436,12 @@ export default function ReservistDashboard() {
                       <div className="flex items-center space-x-3 mb-3">
                         <div className={`w-3 h-3 rounded-full ${reservist.online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{reservist.name}</h3>
-                          <p className="text-sm text-gray-600">{reservist.rank} • {reservist.unit}</p>
+                          <h3 className="font-semibold" style={{ color: 'white' }}>{reservist.name}</h3>
+                          <p className="text-sm" style={{ color: '#8b9aab' }}>{reservist.rank} • {reservist.unit}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500">{reservist.mutualFriends} wspólnych znajomych</span>
+                        <span className="text-xs" style={{ color: '#8b9aab' }}>{reservist.mutualFriends} wspólnych znajomych</span>
                         <button className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">
                           <MessageCircle className="w-3 h-3 inline mr-1" />
                           Wiadomość
@@ -1424,10 +1454,10 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Battalion Transfers */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <UserCog className="w-6 h-6 text-orange-600" />
-                <h2 className="text-xl font-bold text-gray-900">Transfery batalionów</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Transfery batalionów</h2>
               </div>
               
               <div className="space-y-4">
@@ -1480,8 +1510,8 @@ export default function ReservistDashboard() {
         {/* Achievements Tab */}
         {activeTab === 'achievements' && (
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Osiągnięcia i odznaki</h2>
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Osiągnięcia i odznaki</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {achievements.map((achievement) => (
                   <div 
@@ -1538,12 +1568,12 @@ export default function ReservistDashboard() {
           <div className="space-y-8">
             {/* Military Progress Overview */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Poziom wojskowy</p>
-                    <p className="text-3xl font-bold text-gray-900">Lvl 47</p>
-                    <p className="text-sm text-gray-500">2340/2500 XP</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Poziom wojskowy</p>
+                    <p className="text-3xl font-bold" style={{ color: 'white' }}>Lvl 47</p>
+                    <p className="text-sm" style={{ color: '#8b9aab' }}>2340/2500 XP</p>
                   </div>
                   <div className="p-3 bg-blue-100 rounded-full">
                     <Target className="w-6 h-6 text-blue-600" />
@@ -1554,12 +1584,12 @@ export default function ReservistDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Osiągnięcia</p>
-                    <p className="text-3xl font-bold text-gray-900">12</p>
-                    <p className="text-sm text-gray-500">z 25 możliwych</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Osiągnięcia</p>
+                    <p className="text-3xl font-bold" style={{ color: 'white' }}>12</p>
+                    <p className="text-sm" style={{ color: '#8b9aab' }}>z 25 możliwych</p>
                   </div>
                   <div className="p-3 bg-yellow-100 rounded-full">
                     <Trophy className="w-6 h-6 text-yellow-600" />
@@ -1567,12 +1597,12 @@ export default function ReservistDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Specjalizacja</p>
-                    <p className="text-2xl font-bold text-gray-900">Strzelec</p>
-                    <p className="text-sm text-gray-500">85% biegłości</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Specjalizacja</p>
+                    <p className="text-2xl font-bold" style={{ color: 'white' }}>Strzelec</p>
+                    <p className="text-sm" style={{ color: '#8b9aab' }}>85% biegłości</p>
                   </div>
                   <div className="p-3 bg-green-100 rounded-full">
                     <Award className="w-6 h-6 text-green-600" />
@@ -1580,12 +1610,12 @@ export default function ReservistDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+              <div className="rounded-2xl shadow-xl border p-6" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Ranking</p>
-                    <p className="text-3xl font-bold text-gray-900">#15</p>
-                    <p className="text-sm text-gray-500">w batalionie</p>
+                    <p className="text-sm font-medium" style={{ color: '#8b9aab' }}>Ranking</p>
+                    <p className="text-3xl font-bold" style={{ color: 'white' }}>#15</p>
+                    <p className="text-sm" style={{ color: '#8b9aab' }}>w batalionie</p>
                   </div>
                   <div className="p-3 bg-purple-100 rounded-full">
                     <TrendingUp className="w-6 h-6 text-purple-600" />
@@ -1595,33 +1625,33 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Military Skills Progress */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <Target className="w-6 h-6 text-blue-600" />
-                <h2 className="text-xl font-bold text-gray-900">Rozwój Umiejętności Wojskowych</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Rozwój Umiejętności Wojskowych</h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
-                  { name: 'Strzelectwo', level: 85, xp: 850, nextLevel: 1000, color: 'bg-red-500', icon: '🎯' },
-                  { name: 'Taktyka', level: 78, xp: 780, nextLevel: 900, color: 'bg-blue-500', icon: '🧠' },
-                  { name: 'Dowodzenie', level: 92, xp: 920, nextLevel: 1000, color: 'bg-green-500', icon: '👑' },
-                  { name: 'Technologia', level: 45, xp: 450, nextLevel: 600, color: 'bg-purple-500', icon: '💻' },
-                  { name: 'Fizyczność', level: 88, xp: 880, nextLevel: 1000, color: 'bg-orange-500', icon: '💪' },
-                  { name: 'Komunikacja', level: 76, xp: 760, nextLevel: 900, color: 'bg-pink-500', icon: '📡' }
+                  { name: 'Strzelectwo', level: 85, xp: 850, nextLevel: 1000, color: 'bg-red-500', icon: <Target className="w-6 h-6" /> },
+                  { name: 'Taktyka', level: 78, xp: 780, nextLevel: 900, color: 'bg-blue-500', icon: <Brain className="w-6 h-6" /> },
+                  { name: 'Dowodzenie', level: 92, xp: 920, nextLevel: 1000, color: 'bg-green-500', icon: <Crown className="w-6 h-6" /> },
+                  { name: 'Technologia', level: 45, xp: 450, nextLevel: 600, color: 'bg-purple-500', icon: <Activity className="w-6 h-6" /> },
+                  { name: 'Fizyczność', level: 88, xp: 880, nextLevel: 1000, color: 'bg-orange-500', icon: <Zap className="w-6 h-6" /> },
+                  { name: 'Komunikacja', level: 76, xp: 760, nextLevel: 900, color: 'bg-pink-500', icon: <MessageSquare className="w-6 h-6" /> }
                 ].map((skill, index) => (
                   <div key={index} className="border border-gray-200 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-3">
                         <span className="text-2xl">{skill.icon}</span>
                         <div>
-                          <h3 className="font-semibold text-gray-900">{skill.name}</h3>
-                          <p className="text-sm text-gray-600">Poziom {skill.level}</p>
+                          <h3 className="font-semibold" style={{ color: 'white' }}>{skill.name}</h3>
+                          <p className="text-sm" style={{ color: '#8b9aab' }}>Poziom {skill.level}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold text-gray-900">{skill.level}%</div>
-                        <div className="text-xs text-gray-500">{skill.xp}/{skill.nextLevel} XP</div>
+                        <div className="text-lg font-bold" style={{ color: 'white' }}>{skill.level}%</div>
+                        <div className="text-xs" style={{ color: '#8b9aab' }}>{skill.xp}/{skill.nextLevel} XP</div>
                       </div>
                     </div>
                     
@@ -1642,20 +1672,20 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Military Achievements */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <Trophy className="w-6 h-6 text-yellow-600" />
-                <h2 className="text-xl font-bold text-gray-900">Osiągnięcia Wojskowe</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Osiągnięcia Wojskowe</h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { title: 'Mistrz Strzelania', description: 'Najlepszy wynik na strzelnicy', icon: '🎯', earned: true, date: '15.01.2024', points: 100, rarity: 'legendary' },
-                  { title: 'Wzorowy Żołnierz', description: '100% frekwencja przez 3 miesiące', icon: '⭐', earned: true, date: '10.01.2024', points: 150, rarity: 'epic' },
-                  { title: 'Lider Zespołu', description: 'Przewodzenie w 5 ćwiczeniach', icon: '👑', earned: true, date: '05.01.2024', points: 200, rarity: 'epic' },
-                  { title: 'Specjalista Technologii', description: 'Ukończenie kursu IT wojskowego', icon: '💻', earned: false, date: null, points: 300, rarity: 'rare' },
-                  { title: 'Medal Odwagi', description: 'Wykazanie się w trudnej sytuacji', icon: '🏅', earned: false, date: null, points: 500, rarity: 'legendary' },
-                  { title: 'Ekspert Taktyki', description: 'Najlepszy wynik w ćwiczeniach taktycznych', icon: '🧠', earned: false, date: null, points: 250, rarity: 'rare' }
+                  { title: 'Mistrz Strzelania', description: 'Najlepszy wynik na strzelnicy', icon: <Target className="w-6 h-6" />, earned: true, date: '15.01.2024', points: 100, rarity: 'legendary' },
+                  { title: 'Wzorowy Żołnierz', description: '100% frekwencja przez 3 miesiące', icon: <Star className="w-6 h-6" />, earned: true, date: '10.01.2024', points: 150, rarity: 'epic' },
+                  { title: 'Lider Zespołu', description: 'Przewodzenie w 5 ćwiczeniach', icon: <Crown className="w-6 h-6" />, earned: true, date: '05.01.2024', points: 200, rarity: 'epic' },
+                  { title: 'Specjalista Technologii', description: 'Ukończenie kursu IT wojskowego', icon: <Activity className="w-6 h-6" />, earned: false, date: null, points: 300, rarity: 'rare' },
+                  { title: 'Medal Odwagi', description: 'Wykazanie się w trudnej sytuacji', icon: <Award className="w-6 h-6" />, earned: false, date: null, points: 500, rarity: 'legendary' },
+                  { title: 'Ekspert Taktyki', description: 'Najlepszy wynik w ćwiczeniach taktycznych', icon: <Brain className="w-6 h-6" />, earned: false, date: null, points: 250, rarity: 'rare' }
                 ].map((achievement, index) => (
                   <div key={index} className={`border-2 rounded-xl p-4 ${
                     achievement.earned 
@@ -1705,10 +1735,10 @@ export default function ReservistDashboard() {
             </div>
 
             {/* Military Thoughts & Reflections */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            <div className="rounded-2xl shadow-xl border p-8" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
               <div className="flex items-center space-x-3 mb-6">
                 <MessageCircle className="w-6 h-6 text-green-600" />
-                <h2 className="text-xl font-bold text-gray-900">Refleksje Wojskowe</h2>
+                <h2 className="text-xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Refleksje Wojskowe</h2>
               </div>
               
               <div className="space-y-6">
@@ -1728,7 +1758,7 @@ export default function ReservistDashboard() {
 
                 {/* Recent Thoughts */}
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-gray-900">Ostatnie refleksje</h3>
+                  <h3 className="font-semibold" style={{ color: 'white' }}>Ostatnie refleksje</h3>
                   {[
                     {
                       date: '20.01.2024',
@@ -1754,7 +1784,7 @@ export default function ReservistDashboard() {
                   ].map((thought, index) => (
                     <div key={index} className="border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-colors">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900">{thought.title}</h4>
+                        <h4 className="font-semibold" style={{ color: 'white' }}>{thought.title}</h4>
                         <div className="flex items-center space-x-2">
                           <span className={`text-xs px-2 py-1 rounded-full ${
                             thought.mood === 'reflective' ? 'bg-blue-100 text-blue-600' :
@@ -1764,10 +1794,10 @@ export default function ReservistDashboard() {
                             {thought.mood === 'reflective' ? 'Refleksyjny' :
                              thought.mood === 'motivated' ? 'Zmotywowany' : 'Dumny'}
                           </span>
-                          <span className="text-xs text-gray-500">{thought.date}</span>
+                          <span className="text-xs" style={{ color: '#8b9aab' }}>{thought.date}</span>
                         </div>
                       </div>
-                      <p className="text-gray-700 text-sm mb-3">{thought.content}</p>
+                      <p className="text-sm mb-3" style={{ color: '#8b9aab' }}>{thought.content}</p>
                       <div className="flex flex-wrap gap-1">
                         {thought.tags.map((tag, tagIndex) => (
                           <span key={tagIndex} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
@@ -1787,10 +1817,10 @@ export default function ReservistDashboard() {
       {/* Message Modal */}
       {selectedMessage && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">{selectedMessage.title}</h2>
+                <h2 className="text-2xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>{selectedMessage.title}</h2>
                 <button
                   onClick={() => setSelectedMessage(null)}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -1933,10 +1963,10 @@ export default function ReservistDashboard() {
       {/* Decline Reason Modal */}
       {showDeclineReason && selectedMessage && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full">
+          <div className="rounded-2xl shadow-2xl max-w-lg w-full" style={{ backgroundColor: '#2a3441', borderColor: '#5a6b7d' }}>
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Zgłoszenie nieobecności</h2>
+                <h2 className="text-2xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Zgłoszenie nieobecności</h2>
                 <button
                   onClick={() => {
                     setShowDeclineReason(false);

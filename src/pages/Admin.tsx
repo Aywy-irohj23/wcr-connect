@@ -216,25 +216,41 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen" style={{ backgroundColor: '#0f1419' }}>
         {/* Header */}
-        <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="shadow-lg border-b" style={{ backgroundColor: '#2a3441', borderColor: '#6b7c8f' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-6">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">WCR</span>
+                <div className="w-64 h-64 flex items-center justify-center">
+                  <img 
+                    src="/src/assets/51a0c983-862f-436f-9140-f8ef760dc1d2-removebg-preview.ico" 
+                    alt="WCR Logo" 
+                    className="w-64 h-64 object-contain"
+                  />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Settings className="w-6 h-6 text-gray-700" />
-                  <h1 className="text-2xl font-bold text-gray-900">Panel administracyjny</h1>
+                  <Settings className="w-6 h-6" style={{ color: '#6b7c8f' }} />
+                  <h1 className="text-2xl font-bold" style={{ color: 'white', fontFamily: 'Titillium Web, sans-serif' }}>Panel administracyjny</h1>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <NotificationCenter />
                 <button
                   onClick={handleLogout}
-                  className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-xl hover:bg-gray-100 transition-colors"
+                  className="px-4 py-2 rounded-xl transition-colors"
+                  style={{ 
+                    color: '#6b7c8f',
+                    fontFamily: 'Cooper Hewitt, sans-serif'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#3c4a5a';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#6b7c8f';
+                  }}
                 >
                   <div className="flex items-center space-x-2">
                     <LogOut className="w-4 h-4" />
@@ -246,17 +262,37 @@ export default function Admin() {
           </div>
         </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style={{ backgroundColor: '#0f1419' }}>
         {/* INSANE Tab Navigation */}
         <div className="mb-8">
-          <div className="flex flex-wrap gap-2 bg-gray-100 p-1 rounded-2xl">
+          <div className="flex flex-wrap gap-2 p-2 rounded-2xl" style={{ backgroundColor: '#2a3441' }}>
             <button
               onClick={() => setActiveTab('dashboard')}
               className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 ${
                 activeTab === 'dashboard' 
-                  ? 'bg-white text-black shadow-lg' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'shadow-lg' 
+                  : ''
               }`}
+              style={{
+                backgroundColor: activeTab === 'dashboard' ? '#6b7c8f' : 'transparent',
+                color: activeTab === 'dashboard' ? 'white' : '#8b9aab',
+                fontFamily: 'Cooper Hewitt, sans-serif',
+                border: activeTab === 'dashboard' ? '2px solid #5a6b7d' : '2px solid transparent'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== 'dashboard') {
+                  e.currentTarget.style.backgroundColor = '#5a6b7d';
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.border = '2px solid #6b7c8f';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== 'dashboard') {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#8b9aab';
+                  e.currentTarget.style.border = '2px solid transparent';
+                }
+              }}
             >
               <TrendingUp className="w-4 h-4" />
               <span>Dashboard</span>
