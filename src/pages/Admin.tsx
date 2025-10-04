@@ -222,11 +222,11 @@ export default function Admin() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-6">
               <div className="flex items-center space-x-3">
-                <div className="w-64 h-64 flex items-center justify-center">
+                <div className="w-48 h-48 flex items-center justify-center">
                   <img 
-                    src="/src/assets/51a0c983-862f-436f-9140-f8ef760dc1d2-removebg-preview.ico" 
+                    src="/src/assets/mRezerwa-logo1.svg" 
                     alt="WCR Logo" 
-                    className="w-64 h-64 object-contain"
+                    className="w-48 h-48 object-contain"
                   />
                 </div>
                 <div className="flex items-center space-x-2">

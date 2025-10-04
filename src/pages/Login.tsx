@@ -68,7 +68,7 @@ export default function Login() {
         <div className="text-center mb-8 flex flex-col items-center">
           <div className="w-[36rem] h-[36rem] -mb-16 relative">
             <img 
-              src="/src/assets/51a0c983-862f-436f-9140-f8ef760dc1d2-removebg-preview.ico" 
+              src="/src/assets/mRezerwa-logo1.png" 
               alt="WCR Logo" 
               className="w-full h-full object-contain"
               style={{ 
