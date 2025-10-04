@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom colors for WCR Connect */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  
+  --color-military-50: #f8fafc;
+  --color-military-100: #f1f5f9;
+  --color-military-200: #e2e8f0;
+  --color-military-300: #cbd5e1;
+  --color-military-400: #94a3b8;
+  --color-military-500: #64748b;
+  --color-military-600: #475569;
+  --color-military-700: #334155;
+  --color-military-800: #1e293b;
+  --color-military-900: #0f172a;
+  
+  /* Custom font family */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Custom styles for WCR Connect */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure Tailwind utilities take precedence */
+* {
+  box-sizing: border-box;
+}
+
+/* News ticker animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}

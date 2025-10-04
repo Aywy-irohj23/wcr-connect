@@ -1,0 +1,11 @@
+{
+  "watch": ["src"],
+  "ext": "js,json",
+  "exec": "node src/index.js",
+  "delay": "200",
+  "signal": "SIGTERM",
+  "env": {
+    "PORT": "4000"
+  }
+}
+
