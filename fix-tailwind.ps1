@@ -13,3 +13,4 @@ Write-Host "Installing dependencies with Tailwind v3..." -ForegroundColor Yellow
 Write-Host "Tailwind CSS should now be working!" -ForegroundColor Green
 Write-Host "Restart your dev server to see the changes." -ForegroundColor Cyan
 
+

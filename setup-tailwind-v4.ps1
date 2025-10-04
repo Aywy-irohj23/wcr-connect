@@ -28,3 +28,4 @@ Write-Host "  - Polish translations throughout" -ForegroundColor White
 Write-Host ""
 Write-Host "Restart your dev server to see the improvements!" -ForegroundColor Yellow
 
+

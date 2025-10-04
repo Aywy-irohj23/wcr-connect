@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../lib/api";
 import { setToken } from "../lib/auth";
-import { Shield, Eye, EyeOff, Lock, AlertTriangle, Clock, CheckCircle } from "lucide-react";
+import { Shield, Eye, EyeOff, Lock, AlertTriangle, Clock, CheckCircle, Key } from "lucide-react";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -14,7 +14,8 @@ export default function Login() {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
   const [lockoutTime, setLockoutTime] = useState<Date | null>(null);
-  const [sessionWarning, setSessionWarning] = useState(false);
+  const [showEncryptionLogin, setShowEncryptionLogin] = useState(false);
+  const [encryptionKey, setEncryptionKey] = useState("");
   const navigate = useNavigate();
 
   // Security level calculation
@@ -85,6 +86,38 @@ export default function Login() {
     }
   };
 
+  const handleEncryptionLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    
+    if (!encryptionKey) {
+      setError("Wprowadź klucz szyfrowania");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Demo encryption key validation
+      const validKeys = ['WCR2024', 'MILITARY', 'SECURE123', 'ENCRYPT'];
+      if (validKeys.includes(encryptionKey)) {
+        // Simulate successful login with encryption key
+        const mockToken = 'encrypted_token_' + Date.now();
+        
+        setToken(mockToken);
+        localStorage.setItem('encryption_login', 'true');
+        
+        navigate("/dashboard");
+      } else {
+        setError("Nieprawidłowy klucz szyfrowania");
+      }
+    } catch (err) {
+      setError("Błąd weryfikacji klucza szyfrowania");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
@@ -99,7 +132,128 @@ export default function Login() {
         
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Encryption Login Toggle */}
+          <div className="mb-6">
+            <button
+              type="button"
+              onClick={() => setShowEncryptionLogin(!showEncryptionLogin)}
+              className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center space-x-2"
+            >
+              <Key className="w-5 h-5" />
+              <span>Logowanie kluczem szyfrowania (Pendrive)</span>
+            </button>
+          </div>
+
+          {showEncryptionLogin ? (
+            /* Encryption Login Form */
+            <form onSubmit={handleEncryptionLogin} className="space-y-6">
+              {/* Military-Style Instructions */}
+              <div className="bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">PROCEDURA LOGOWANIA KRYPTOLOGICZNEGO</h3>
+                    <p className="text-gray-300 text-sm">Poziom bezpieczeństwa: Maksymalny</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="bg-gray-800 rounded-lg p-4">
+                    <h4 className="font-semibold text-yellow-400 mb-2">KROK 1: Podłącz urządzenie</h4>
+                    <p className="text-gray-300 text-sm">Włóż pendrive z kluczem szyfrowania do portu USB</p>
+                  </div>
+                  <div className="bg-gray-800 rounded-lg p-4">
+                    <h4 className="font-semibold text-yellow-400 mb-2">KROK 2: Wprowadź klucz</h4>
+                    <p className="text-gray-300 text-sm">Wpisz klucz szyfrowania z urządzenia</p>
+                  </div>
+                </div>
+                
+                <div className="bg-red-900 border border-red-600 rounded-lg p-3">
+                  <div className="flex items-center space-x-2">
+                    <AlertTriangle className="w-5 h-5 text-red-400" />
+                    <span className="font-semibold text-red-300">UWAGA BEZPIECZEŃSTWA</span>
+                  </div>
+                  <p className="text-red-200 text-sm mt-1">
+                    Ten tryb logowania jest przeznaczony wyłącznie dla personelu z uprawnieniami kryptograficznymi. 
+                    Nieprawidłowe użycie może skutkować zablokowaniem dostępu.
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="bg-gray-900 border-2 border-gray-700 rounded-xl p-4">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                      <Key className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">KLUCZ SZYFROWANIA</h4>
+                      <p className="text-gray-400 text-xs">Wprowadź klucz z urządzenia kryptograficznego</p>
+                    </div>
+                  </div>
+                  
+                  <input
+                    id="encryptionKey"
+                    name="encryptionKey"
+                    type="password"
+                    required
+                    value={encryptionKey}
+                    onChange={(e) => setEncryptionKey(e.target.value)}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors font-mono"
+                    placeholder="Wprowadź klucz szyfrowania..."
+                  />
+                  
+                  <div className="flex items-center space-x-2 mt-2">
+                    <div className="flex space-x-1">
+                      {Array.from({ length: 8 }, (_, i) => (
+                        <div key={i} className={`w-2 h-2 rounded-full ${
+                          encryptionKey.length > i ? 'bg-green-500' : 'bg-gray-600'
+                        }`}></div>
+                      ))}
+                    </div>
+                    <span className="text-xs text-gray-400">
+                      {encryptionKey.length > 0 ? `${encryptionKey.length}/8 znaków` : 'Oczekiwanie na klucz...'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-4 px-6 rounded-xl font-bold hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 border-2 border-red-500 shadow-lg"
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    WERYFIKACJA KRYPTOLOGICZNA...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center">
+                    <Shield className="w-5 h-5 mr-2" />
+                    AUTORYZACJA KRYPTOLOGICZNA
+                  </span>
+                )}
+              </button>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowEncryptionLogin(false)}
+                  className="text-gray-600 hover:text-gray-800 font-medium text-sm"
+                >
+                  ← Powrót do standardowego logowania
+                </button>
+              </div>
+            </form>
+          ) : (
+            /* Standard Login Form */
+            <form onSubmit={handleSubmit} className="space-y-6">
             {/* Username Field */}
             <div className="relative">
               <input
@@ -212,6 +366,7 @@ export default function Login() {
               ) : "Zaloguj się"}
             </button>
           </form>
+          )}
         </div>
 
               {/* Security Notice */}
@@ -253,6 +408,39 @@ export default function Login() {
                     <span className="font-mono">anna.nowak / start123</span>
                   </div>
                 </div>
+              </div>
+
+              {/* Demo Encryption Keys */}
+              <div className="mt-4 bg-purple-50 border border-purple-200 rounded-2xl p-6">
+                <h3 className="text-sm font-semibold text-purple-800 mb-3">Klucze szyfrowania (demo):</h3>
+                <div className="space-y-2 text-sm text-purple-700">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Klucz 1:</span>
+                    <span className="font-mono">WCR2024</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Klucz 2:</span>
+                    <span className="font-mono">MILITARY</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Klucz 3:</span>
+                    <span className="font-mono">SECURE123</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Klucz 4:</span>
+                    <span className="font-mono">ENCRYPT</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Registration Link */}
+              <div className="mt-4 text-center">
+                <button
+                  onClick={() => navigate("/register")}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Nie masz konta? Zarejestruj się →
+                </button>
               </div>
       </div>
     </div>

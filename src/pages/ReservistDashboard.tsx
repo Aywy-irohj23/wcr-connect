@@ -174,7 +174,7 @@ interface BattalionTransfer {
 
 export default function ReservistDashboard() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'achievements' | 'inbox' | 'analytics' | 'community'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'achievements' | 'inbox' | 'analytics' | 'community' | 'progress'>('inbox');
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [newsTickerPosition, setNewsTickerPosition] = useState(0);
   const [isNewsTickerPaused, setIsNewsTickerPaused] = useState(false);
@@ -185,6 +185,9 @@ export default function ReservistDashboard() {
   const [filter, setFilter] = useState<'all' | 'upcoming'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
+  const [showDeclineReason, setShowDeclineReason] = useState(false);
+  const [declineReason, setDeclineReason] = useState('');
+  const [declineCategory, setDeclineCategory] = useState('');
   
   // Weather and interactive modals
   const [showWeatherModal, setShowWeatherModal] = useState(false);
@@ -453,24 +456,38 @@ export default function ReservistDashboard() {
     setChatMessages([
       {
         id: '1',
-        sender: 'Marcin Nowak',
-        message: 'Cześć! Ktoś idzie na paintball w weekend?',
+        sender: 'Kapral Marcin Nowak',
+        message: 'Cześć! Gdzie mogę wymienić buty wojskowe na większy rozmiar? Moje są za małe po ostatnim treningu.',
         timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
         type: 'text'
       },
       {
         id: '2',
-        sender: 'Anna Kowalska',
-        message: 'Zaproszenie na paintball',
+        sender: 'Starszy Kapral Anna Kowalska',
+        message: 'Ćwiczenia taktyczne - koordynacja',
         timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
         type: 'invitation',
         invitation: {
-          title: 'Paintball - Sobota 15:00',
-          description: 'Zapraszam na paintball w sobotę o 15:00. Miejsce: Las Kabacki',
-          date: 'Sobota, 15:00',
-          location: 'Las Kabacki',
-          type: 'Sport'
+          title: 'Ćwiczenia taktyczne - Sobota 08:00',
+          description: 'Planowane są ćwiczenia taktyczne na poligonie. Proszę o potwierdzenie obecności.',
+          date: 'Sobota, 08:00',
+          location: 'Poligon Poznań',
+          type: 'Ćwiczenia wojskowe'
         }
+      },
+      {
+        id: '3',
+        sender: 'Kapral Piotr Wiśniewski',
+        message: 'Ktoś wie gdzie można zgłosić problem z wyposażeniem? Mam problem z plecakiem.',
+        timestamp: new Date(Date.now() - 30 * 60 * 1000),
+        type: 'text'
+      },
+      {
+        id: '4',
+        sender: 'Starszy Kapral Anna Kowalska',
+        message: 'Piotr, idź do kwatermistrza w siedzibie WCR. On zajmuje się wyposażeniem.',
+        timestamp: new Date(Date.now() - 15 * 60 * 1000),
+        type: 'text'
       }
     ]);
 
@@ -797,6 +814,17 @@ export default function ReservistDashboard() {
             >
               <Trophy className="w-4 h-4" />
               <span>Osiągnięcia</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('progress')}
+              className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 ${
+                activeTab === 'progress' 
+                  ? 'bg-white text-black shadow-lg' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Target className="w-4 h-4" />
+              <span>Postęp</span>
             </button>
           </div>
         </div>
@@ -1221,14 +1249,78 @@ export default function ReservistDashboard() {
         {/* Community Tab */}
         {activeTab === 'community' && (
           <div className="space-y-8">
-            {/* Secure Chat */}
+            {/* Military Unit Chat */}
             <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
               <div className="flex items-center space-x-3 mb-6">
                 <MessageCircle className="w-6 h-6 text-blue-600" />
-                <h2 className="text-xl font-bold text-gray-900">Bezpieczny czat</h2>
+                <h2 className="text-xl font-bold text-gray-900">Czat Jednostki Wojskowej</h2>
                 <div className="flex items-center space-x-1 bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs">
                   <Lock className="w-3 h-3" />
                   <span>Szyfrowany</span>
+                </div>
+                <div className="flex items-center space-x-1 bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs">
+                  <Shield className="w-3 h-3" />
+                  <span>Tylko jednostka</span>
+                </div>
+              </div>
+              
+              {/* Chat Topics */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Tematy do dyskusji:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <h4 className="font-medium text-blue-900 mb-2">Wyposażenie i umundurowanie</h4>
+                    <p className="text-sm text-blue-700">Dyskusje o nowym wyposażeniu, wymianie umundurowania, problemach z rozmiarami</p>
+                  </div>
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <h4 className="font-medium text-green-900 mb-2">Ćwiczenia i szkolenia</h4>
+                    <p className="text-sm text-green-700">Planowanie ćwiczeń, wymiana doświadczeń, koordynacja działań</p>
+                  </div>
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                    <h4 className="font-medium text-orange-900 mb-2">Logistyka i transport</h4>
+                    <p className="text-sm text-orange-700">Organizacja transportu, logistyka ćwiczeń, koordynacja dojazdów</p>
+                  </div>
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                    <h4 className="font-medium text-purple-900 mb-2">Wsparcie techniczne</h4>
+                    <p className="text-sm text-purple-700">Problemy techniczne, wsparcie IT, aktualizacje systemów</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Quick Suggestions */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Szybkie sugestie pytań:</h3>
+                <div className="flex flex-wrap gap-2">
+                  <button 
+                    onClick={() => setNewChatMessage("Gdzie mogę wymienić buty wojskowe na większy rozmiar?")}
+                    className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm hover:bg-blue-200 transition-colors"
+                  >
+                    Wymiana butów
+                  </button>
+                  <button 
+                    onClick={() => setNewChatMessage("Jakie są procedury otrzymania nowego umundurowania?")}
+                    className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm hover:bg-green-200 transition-colors"
+                  >
+                    Nowe umundurowanie
+                  </button>
+                  <button 
+                    onClick={() => setNewChatMessage("Kto ma informacje o harmonogramie ćwiczeń na przyszły miesiąc?")}
+                    className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm hover:bg-orange-200 transition-colors"
+                  >
+                    Harmonogram ćwiczeń
+                  </button>
+                  <button 
+                    onClick={() => setNewChatMessage("Gdzie mogę zgłosić problem z wyposażeniem?")}
+                    className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm hover:bg-red-200 transition-colors"
+                  >
+                    Problem z wyposażeniem
+                  </button>
+                  <button 
+                    onClick={() => setNewChatMessage("Czy ktoś wie o zmianach w procedurach bezpieczeństwa?")}
+                    className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm hover:bg-purple-200 transition-colors"
+                  >
+                    Procedury bezpieczeństwa
+                  </button>
                 </div>
               </div>
               
@@ -1440,6 +1532,256 @@ export default function ReservistDashboard() {
             </div>
           </div>
         )}
+
+        {/* Progress Tab - Game-style Achievements & Military Thoughts */}
+        {activeTab === 'progress' && (
+          <div className="space-y-8">
+            {/* Military Progress Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Poziom wojskowy</p>
+                    <p className="text-3xl font-bold text-gray-900">Lvl 47</p>
+                    <p className="text-sm text-gray-500">2340/2500 XP</p>
+                  </div>
+                  <div className="p-3 bg-blue-100 rounded-full">
+                    <Target className="w-6 h-6 text-blue-600" />
+                  </div>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '93.6%' }}></div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Osiągnięcia</p>
+                    <p className="text-3xl font-bold text-gray-900">12</p>
+                    <p className="text-sm text-gray-500">z 25 możliwych</p>
+                  </div>
+                  <div className="p-3 bg-yellow-100 rounded-full">
+                    <Trophy className="w-6 h-6 text-yellow-600" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Specjalizacja</p>
+                    <p className="text-2xl font-bold text-gray-900">Strzelec</p>
+                    <p className="text-sm text-gray-500">85% biegłości</p>
+                  </div>
+                  <div className="p-3 bg-green-100 rounded-full">
+                    <Award className="w-6 h-6 text-green-600" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Ranking</p>
+                    <p className="text-3xl font-bold text-gray-900">#15</p>
+                    <p className="text-sm text-gray-500">w batalionie</p>
+                  </div>
+                  <div className="p-3 bg-purple-100 rounded-full">
+                    <TrendingUp className="w-6 h-6 text-purple-600" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Military Skills Progress */}
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <Target className="w-6 h-6 text-blue-600" />
+                <h2 className="text-xl font-bold text-gray-900">Rozwój Umiejętności Wojskowych</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  { name: 'Strzelectwo', level: 85, xp: 850, nextLevel: 1000, color: 'bg-red-500', icon: '🎯' },
+                  { name: 'Taktyka', level: 78, xp: 780, nextLevel: 900, color: 'bg-blue-500', icon: '🧠' },
+                  { name: 'Dowodzenie', level: 92, xp: 920, nextLevel: 1000, color: 'bg-green-500', icon: '👑' },
+                  { name: 'Technologia', level: 45, xp: 450, nextLevel: 600, color: 'bg-purple-500', icon: '💻' },
+                  { name: 'Fizyczność', level: 88, xp: 880, nextLevel: 1000, color: 'bg-orange-500', icon: '💪' },
+                  { name: 'Komunikacja', level: 76, xp: 760, nextLevel: 900, color: 'bg-pink-500', icon: '📡' }
+                ].map((skill, index) => (
+                  <div key={index} className="border border-gray-200 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-2xl">{skill.icon}</span>
+                        <div>
+                          <h3 className="font-semibold text-gray-900">{skill.name}</h3>
+                          <p className="text-sm text-gray-600">Poziom {skill.level}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-gray-900">{skill.level}%</div>
+                        <div className="text-xs text-gray-500">{skill.xp}/{skill.nextLevel} XP</div>
+                      </div>
+                    </div>
+                    
+                    <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                      <div 
+                        className={`${skill.color} h-3 rounded-full transition-all duration-500`}
+                        style={{ width: `${skill.level}%` }}
+                      ></div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>Do następnego poziomu: {skill.nextLevel - skill.xp} XP</span>
+                      <span>{Math.round((skill.xp / skill.nextLevel) * 100)}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Military Achievements */}
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <Trophy className="w-6 h-6 text-yellow-600" />
+                <h2 className="text-xl font-bold text-gray-900">Osiągnięcia Wojskowe</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  { title: 'Mistrz Strzelania', description: 'Najlepszy wynik na strzelnicy', icon: '🎯', earned: true, date: '15.01.2024', points: 100, rarity: 'legendary' },
+                  { title: 'Wzorowy Żołnierz', description: '100% frekwencja przez 3 miesiące', icon: '⭐', earned: true, date: '10.01.2024', points: 150, rarity: 'epic' },
+                  { title: 'Lider Zespołu', description: 'Przewodzenie w 5 ćwiczeniach', icon: '👑', earned: true, date: '05.01.2024', points: 200, rarity: 'epic' },
+                  { title: 'Specjalista Technologii', description: 'Ukończenie kursu IT wojskowego', icon: '💻', earned: false, date: null, points: 300, rarity: 'rare' },
+                  { title: 'Medal Odwagi', description: 'Wykazanie się w trudnej sytuacji', icon: '🏅', earned: false, date: null, points: 500, rarity: 'legendary' },
+                  { title: 'Ekspert Taktyki', description: 'Najlepszy wynik w ćwiczeniach taktycznych', icon: '🧠', earned: false, date: null, points: 250, rarity: 'rare' }
+                ].map((achievement, index) => (
+                  <div key={index} className={`border-2 rounded-xl p-4 ${
+                    achievement.earned 
+                      ? achievement.rarity === 'legendary' ? 'border-yellow-400 bg-yellow-50' :
+                        achievement.rarity === 'epic' ? 'border-purple-400 bg-purple-50' :
+                        'border-blue-400 bg-blue-50'
+                      : 'border-gray-200 bg-gray-50'
+                  }`}>
+                    <div className="flex items-center space-x-3 mb-3">
+                      <span className="text-3xl">{achievement.icon}</span>
+                      <div className="flex-1">
+                        <h3 className={`font-bold ${
+                          achievement.earned ? 'text-gray-900' : 'text-gray-500'
+                        }`}>
+                          {achievement.title}
+                        </h3>
+                        <p className={`text-sm ${
+                          achievement.earned ? 'text-gray-600' : 'text-gray-400'
+                        }`}>
+                          {achievement.description}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          achievement.rarity === 'legendary' ? 'bg-yellow-100 text-yellow-600' :
+                          achievement.rarity === 'epic' ? 'bg-purple-100 text-purple-600' :
+                          'bg-blue-100 text-blue-600'
+                        }`}>
+                          {achievement.rarity === 'legendary' ? 'Legendarny' :
+                           achievement.rarity === 'epic' ? 'Epicki' : 'Rzadki'}
+                        </span>
+                        <span className="text-xs text-gray-500">{achievement.points} pkt</span>
+                      </div>
+                      {achievement.earned && (
+                        <div className="text-right">
+                          <div className="text-xs text-green-600 font-medium">Zdobyte</div>
+                          <div className="text-xs text-gray-500">{achievement.date}</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Military Thoughts & Reflections */}
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <MessageCircle className="w-6 h-6 text-green-600" />
+                <h2 className="text-xl font-bold text-gray-900">Refleksje Wojskowe</h2>
+              </div>
+              
+              <div className="space-y-6">
+                {/* Add New Thought */}
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h3 className="font-semibold text-gray-900 mb-3">Dodaj nową refleksję</h3>
+                  <textarea
+                    placeholder="Opisz swoje przemyślenia z ostatnich ćwiczeń, lekcje, które wyniosłeś, lub cele na przyszłość..."
+                    className="w-full h-24 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  />
+                  <div className="flex justify-end mt-3">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                      Zapisz refleksję
+                    </button>
+                  </div>
+                </div>
+
+                {/* Recent Thoughts */}
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-gray-900">Ostatnie refleksje</h3>
+                  {[
+                    {
+                      date: '20.01.2024',
+                      title: 'Ćwiczenia taktyczne - lekcje',
+                      content: 'Dzisiejsze ćwiczenia pokazały mi, jak ważna jest komunikacja w zespole. Muszę popracować nad przekazywaniem informacji w stresie.',
+                      tags: ['taktyka', 'komunikacja', 'stres'],
+                      mood: 'reflective'
+                    },
+                    {
+                      date: '18.01.2024',
+                      title: 'Cel na przyszły miesiąc',
+                      content: 'Chcę poprawić swoje umiejętności strzeleckie. Planuję dodatkowe treningi na strzelnicy i pracę nad techniką.',
+                      tags: ['strzelectwo', 'cele', 'trening'],
+                      mood: 'motivated'
+                    },
+                    {
+                      date: '15.01.2024',
+                      title: 'Osiągnięcie - Mistrz Strzelania',
+                      content: 'Wreszcie udało się! Miesiące treningów przyniosły efekt. Najważniejsze było opanowanie oddechu i koncentracja.',
+                      tags: ['osiągnięcie', 'strzelectwo', 'sukces'],
+                      mood: 'proud'
+                    }
+                  ].map((thought, index) => (
+                    <div key={index} className="border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold text-gray-900">{thought.title}</h4>
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            thought.mood === 'reflective' ? 'bg-blue-100 text-blue-600' :
+                            thought.mood === 'motivated' ? 'bg-green-100 text-green-600' :
+                            'bg-yellow-100 text-yellow-600'
+                          }`}>
+                            {thought.mood === 'reflective' ? 'Refleksyjny' :
+                             thought.mood === 'motivated' ? 'Zmotywowany' : 'Dumny'}
+                          </span>
+                          <span className="text-xs text-gray-500">{thought.date}</span>
+                        </div>
+                      </div>
+                      <p className="text-gray-700 text-sm mb-3">{thought.content}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {thought.tags.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Message Modal */}
@@ -1563,36 +1905,11 @@ export default function ReservistDashboard() {
                     </span>
                   </button>
                   <button
-                    onClick={async () => {
-                      try {
-                        // Send response to server
-                        await respondToMessage(selectedMessage.id, 'declined');
-                        
-                        // Update local messages state
-                        setMessages(prev => prev.map(msg => 
-                          msg.id === selectedMessage.id 
-                            ? { ...msg, status: 'declined' }
-                            : msg
-                        ));
-                        
-                        // Add success notification
-                        const newNotification: Notification = {
-                          id: Date.now().toString(),
-                          title: 'Odpowiedź wysłana',
-                          message: `Zgłosiłeś nieobecność na: ${selectedMessage.title}`,
-                          timestamp: new Date(),
-                          type: 'info',
-                          read: false
-                        };
-                        setNotifications(prev => [newNotification, ...prev]);
-                        
-                        // Close modal
-                        setSelectedMessage(null);
-                      } catch (error) {
-                        console.error('Error responding to message:', error);
-                        // Still close modal but show error
-                        setSelectedMessage(null);
+                    onClick={() => {
+                      if (selectedMessage.status === 'acknowledged' || selectedMessage.status === 'declined') {
+                        return;
                       }
+                      setShowDeclineReason(true);
                     }}
                     disabled={selectedMessage.status === 'acknowledged' || selectedMessage.status === 'declined'}
                     className={`flex-1 px-6 py-3 rounded-xl transition-colors flex items-center justify-center space-x-2 ${
@@ -1605,6 +1922,140 @@ export default function ReservistDashboard() {
                     <span>
                       {selectedMessage.status === 'declined' ? 'Już odrzucono' : 'Nie mogę uczestniczyć'}
                     </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Decline Reason Modal */}
+      {showDeclineReason && selectedMessage && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Zgłoszenie nieobecności</h2>
+                <button
+                  onClick={() => {
+                    setShowDeclineReason(false);
+                    setDeclineReason('');
+                    setDeclineCategory('');
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <XCircle className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="space-y-6">
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <AlertTriangle className="w-5 h-5 text-red-600" />
+                    <span className="font-semibold text-red-800">Ważne informacje</span>
+                  </div>
+                  <p className="text-red-700 text-sm">
+                    Proszę podać powód nieobecności na: <strong>{selectedMessage.title}</strong>
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Kategoria powodu
+                  </label>
+                  <select
+                    value={declineCategory}
+                    onChange={(e) => setDeclineCategory(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  >
+                    <option value="">Wybierz kategorię</option>
+                    <option value="health">Problemy zdrowotne</option>
+                    <option value="work">Konflikt z pracą</option>
+                    <option value="family">Sprawy rodzinne</option>
+                    <option value="transport">Problemy z transportem</option>
+                    <option value="personal">Sprawy osobiste</option>
+                    <option value="other">Inne</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Szczegółowy powód nieobecności *
+                  </label>
+                  <textarea
+                    value={declineReason}
+                    onChange={(e) => setDeclineReason(e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 resize-none"
+                    placeholder="Opisz szczegółowo powód swojej nieobecności..."
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Minimum 10 znaków. Informacja zostanie przekazana do dowództwa.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      setShowDeclineReason(false);
+                      setDeclineReason('');
+                      setDeclineCategory('');
+                    }}
+                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    Anuluj
+                  </button>
+                  <button
+                    onClick={async () => {
+                      if (!declineReason.trim() || declineReason.trim().length < 10) {
+                        alert('Proszę podać szczegółowy powód nieobecności (minimum 10 znaków)');
+                        return;
+                      }
+                      if (!declineCategory) {
+                        alert('Proszę wybrać kategorię powodu');
+                        return;
+                      }
+
+                      try {
+                        // Send response to server with reason
+                        await respondToMessage(selectedMessage.id, 'declined');
+                        
+                        // Update local messages state
+                        setMessages(prev => prev.map(msg => 
+                          msg.id === selectedMessage.id 
+                            ? { ...msg, status: 'declined' }
+                            : msg
+                        ));
+                        
+                        // Add success notification with reason
+                        const newNotification: Notification = {
+                          id: Date.now().toString(),
+                          title: 'Nieobecność zgłoszona',
+                          message: `Zgłosiłeś nieobecność na: ${selectedMessage.title}. Powód: ${declineCategory}`,
+                          timestamp: new Date(),
+                          type: 'info',
+                          read: false
+                        };
+                        setNotifications(prev => [newNotification, ...prev]);
+                        
+                        // Close modals
+                        setShowDeclineReason(false);
+                        setSelectedMessage(null);
+                        setDeclineReason('');
+                        setDeclineCategory('');
+                      } catch (error) {
+                        console.error('Error responding to message:', error);
+                        setShowDeclineReason(false);
+                        setSelectedMessage(null);
+                      }
+                    }}
+                    disabled={!declineReason.trim() || declineReason.trim().length < 10 || !declineCategory}
+                    className="flex-1 px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center space-x-2"
+                  >
+                    <XCircle className="w-5 h-5" />
+                    <span>Zgłoś nieobecność</span>
                   </button>
                 </div>
               </div>

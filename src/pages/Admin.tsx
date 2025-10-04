@@ -74,7 +74,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'messages' | 'create' | 'analytics' | 'community' | 'reports'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'messages' | 'create' | 'analytics' | 'personnel' | 'community' | 'reports'>('dashboard');
   const [searchFilters, setSearchFilters] = useState<any>({});
   const navigate = useNavigate();
 
@@ -293,6 +293,17 @@ export default function Admin() {
             >
               <BarChart3 className="w-4 h-4" />
               <span>Analityka</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('personnel')}
+              className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2 ${
+                activeTab === 'personnel' 
+                  ? 'bg-white text-black shadow-lg' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Target className="w-4 h-4" />
+              <span>Personel</span>
             </button>
             <button
               onClick={() => setActiveTab('community')}
@@ -708,6 +719,351 @@ export default function Admin() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Personnel Analytics Tab */}
+        {activeTab === 'personnel' && (
+          <div className="space-y-8">
+            {/* Personnel Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Łącznie żołnierzy</p>
+                    <p className="text-3xl font-bold text-gray-900">156</p>
+                  </div>
+                  <div className="p-3 bg-blue-100 rounded-full">
+                    <Users className="w-6 h-6 text-blue-600" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Aktywni w treningach</p>
+                    <p className="text-3xl font-bold text-gray-900">89</p>
+                  </div>
+                  <div className="p-3 bg-green-100 rounded-full">
+                    <Activity className="w-6 h-6 text-green-600" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Nowe specjalizacje</p>
+                    <p className="text-3xl font-bold text-gray-900">23</p>
+                  </div>
+                  <div className="p-3 bg-purple-100 rounded-full">
+                    <Target className="w-6 h-6 text-purple-600" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Średni poziom</p>
+                    <p className="text-3xl font-bold text-gray-900">Lvl 42</p>
+                  </div>
+                  <div className="p-3 bg-orange-100 rounded-full">
+                    <TrendingUp className="w-6 h-6 text-orange-600" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Personnel Skills Matrix */}
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <Target className="w-6 h-6 text-blue-600" />
+                <h2 className="text-xl font-bold text-gray-900">Macierz Umiejętności Żołnierzy</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Personnel List */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Żołnierze i ich umiejętności</h3>
+                  {[
+                    { name: 'Kapral Jan Kowalski', rank: 'Kapral', unit: '1. Batalion', skills: { shooting: 85, tactics: 78, leadership: 92, tech: 45 }, level: 47, xp: 2340, nextLevel: 2500 },
+                    { name: 'Starszy Kapral Anna Nowak', rank: 'Starszy Kapral', unit: '2. Batalion', skills: { shooting: 92, tactics: 88, leadership: 95, tech: 78 }, level: 52, xp: 2890, nextLevel: 3000 },
+                    { name: 'Kapral Piotr Wiśniewski', rank: 'Kapral', unit: '1. Batalion', skills: { shooting: 78, tactics: 82, leadership: 65, tech: 95 }, level: 45, xp: 2100, nextLevel: 2300 },
+                    { name: 'Kapral Marcin Lewandowski', rank: 'Kapral', unit: '3. Batalion', skills: { shooting: 88, tactics: 85, leadership: 72, tech: 88 }, level: 49, xp: 2560, nextLevel: 2700 },
+                    { name: 'Starszy Kapral Tomasz Zieliński', rank: 'Starszy Kapral', unit: '2. Batalion', skills: { shooting: 95, tactics: 92, leadership: 88, tech: 65 }, level: 55, xp: 3200, nextLevel: 3400 }
+                  ].map((soldier, index) => (
+                    <div key={index} className="border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h4 className="font-semibold text-gray-900">{soldier.name}</h4>
+                          <p className="text-sm text-gray-600">{soldier.rank} • {soldier.unit}</p>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-lg font-bold text-blue-600">Lvl {soldier.level}</div>
+                          <div className="text-xs text-gray-500">{soldier.xp}/{soldier.nextLevel} XP</div>
+                        </div>
+                      </div>
+                      
+                      {/* XP Progress Bar */}
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                        <div 
+                          className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${(soldier.xp / soldier.nextLevel) * 100}%` }}
+                        ></div>
+                      </div>
+                      
+                      {/* Skills */}
+                      <div className="grid grid-cols-2 gap-2">
+                        {Object.entries(soldier.skills).map(([skill, value]) => (
+                          <div key={skill} className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 capitalize">{skill === 'tech' ? 'Technologia' : skill === 'tactics' ? 'Taktyka' : skill === 'leadership' ? 'Dowodzenie' : 'Strzelectwo'}</span>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                                <div 
+                                  className={`h-1.5 rounded-full ${
+                                    value >= 90 ? 'bg-green-500' : 
+                                    value >= 70 ? 'bg-blue-500' : 
+                                    value >= 50 ? 'bg-yellow-500' : 'bg-red-500'
+                                  }`}
+                                  style={{ width: `${value}%` }}
+                                ></div>
+                              </div>
+                              <span className="text-xs font-medium text-gray-700">{value}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* AI Recommendations */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-gray-900">Rekomendacje AI</h3>
+                  
+                  {/* Specialization Recommendations */}
+                  <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6">
+                    <div className="flex items-center space-x-2 mb-4">
+                      <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">AI</span>
+                      </div>
+                      <h4 className="font-semibold text-purple-900">Specjalizacje rekomendowane</h4>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="bg-white rounded-lg p-3 border border-purple-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-medium text-gray-900">Operator Dronów</span>
+                          <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Wysokie dopasowanie</span>
+                        </div>
+                        <p className="text-xs text-gray-600 mb-2">Piotr Wiśniewski - umiejętności techniczne: 95/100</p>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-1.5">
+                            <div className="bg-green-500 h-1.5 rounded-full" style={{ width: '95%' }}></div>
+                          </div>
+                          <span className="text-xs text-gray-500">95% dopasowania</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-3 border border-purple-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-medium text-gray-900">Dowódca Zespołu</span>
+                          <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Średnie dopasowanie</span>
+                        </div>
+                        <p className="text-xs text-gray-600 mb-2">Anna Nowak - umiejętności dowodzenia: 95/100</p>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-1.5">
+                            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '88%' }}></div>
+                          </div>
+                          <span className="text-xs text-gray-500">88% dopasowania</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-3 border border-purple-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-medium text-gray-900">Snajper</span>
+                          <span className="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">Niskie dopasowanie</span>
+                        </div>
+                        <p className="text-xs text-gray-600 mb-2">Tomasz Zieliński - umiejętności strzeleckie: 95/100</p>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-1.5">
+                            <div className="bg-yellow-500 h-1.5 rounded-full" style={{ width: '75%' }}></div>
+                          </div>
+                          <span className="text-xs text-gray-500">75% dopasowania</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Training Recommendations */}
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6">
+                    <div className="flex items-center space-x-2 mb-4">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">AI</span>
+                      </div>
+                      <h4 className="font-semibold text-green-900">Rekomendacje treningowe</h4>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="bg-white rounded-lg p-3 border border-green-200">
+                        <h5 className="font-medium text-gray-900 mb-1">Trening Technologii Wojskowej</h5>
+                        <p className="text-xs text-gray-600 mb-2">Dla: Marcin Lewandowski, Piotr Wiśniewski</p>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Priorytet: Wysoki</span>
+                          <span className="text-xs text-gray-500">Następny kurs: 15.02.2024</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-3 border border-green-200">
+                        <h5 className="font-medium text-gray-900 mb-1">Kurs Dowodzenia</h5>
+                        <p className="text-xs text-gray-600 mb-2">Dla: Jan Kowalski, Anna Nowak</p>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Priorytet: Średni</span>
+                          <span className="text-xs text-gray-500">Następny kurs: 22.02.2024</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Career Path Suggestions */}
+                  <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
+                    <div className="flex items-center space-x-2 mb-4">
+                      <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">AI</span>
+                      </div>
+                      <h4 className="font-semibold text-orange-900">Ścieżki kariery</h4>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="bg-white rounded-lg p-3 border border-orange-200">
+                        <h5 className="font-medium text-gray-900 mb-1">Ścieżka: Specjalista Technologii</h5>
+                        <p className="text-xs text-gray-600 mb-2">Piotr Wiśniewski → Operator Dronów → Specjalista Cyberbezpieczeństwa</p>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full">Czas: 6-12 miesięcy</span>
+                          <span className="text-xs text-gray-500">Potencjał: 95%</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-3 border border-orange-200">
+                        <h5 className="font-medium text-gray-900 mb-1">Ścieżka: Dowódca</h5>
+                        <p className="text-xs text-gray-600 mb-2">Anna Nowak → Dowódca Zespołu → Dowódca Plutonu</p>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Czas: 12-18 miesięcy</span>
+                          <span className="text-xs text-gray-500">Potencjał: 88%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Training Analytics */}
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <TrendingUp className="w-6 h-6 text-green-600" />
+                <h2 className="text-xl font-bold text-gray-900">Analityka Treningów</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Training Performance */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Wydajność Treningów</h3>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Strzelectwo', performance: 87, trend: 'up', change: '+5%' },
+                      { name: 'Taktyka', performance: 82, trend: 'up', change: '+3%' },
+                      { name: 'Technologia', performance: 76, trend: 'up', change: '+8%' },
+                      { name: 'Dowodzenie', performance: 91, trend: 'stable', change: '0%' }
+                    ].map((training, index) => (
+                      <div key={index} className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">{training.name}</span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-2">
+                            <div 
+                              className={`h-2 rounded-full ${
+                                training.performance >= 90 ? 'bg-green-500' : 
+                                training.performance >= 80 ? 'bg-blue-500' : 
+                                training.performance >= 70 ? 'bg-yellow-500' : 'bg-red-500'
+                              }`}
+                              style={{ width: `${training.performance}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm font-medium text-gray-700">{training.performance}%</span>
+                          <span className={`text-xs ${
+                            training.trend === 'up' ? 'text-green-600' : 
+                            training.trend === 'down' ? 'text-red-600' : 'text-gray-600'
+                          }`}>
+                            {training.change}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Specialization Distribution */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Rozkład Specjalizacji</h3>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Strzelec', count: 45, percentage: 28.8 },
+                      { name: 'Operator Dronów', count: 23, percentage: 14.7 },
+                      { name: 'Dowódca', count: 18, percentage: 11.5 },
+                      { name: 'Specjalista IT', count: 15, percentage: 9.6 },
+                      { name: 'Medyk', count: 12, percentage: 7.7 },
+                      { name: 'Inne', count: 43, percentage: 27.6 }
+                    ].map((spec, index) => (
+                      <div key={index} className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">{spec.name}</span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div 
+                              className="bg-blue-500 h-2 rounded-full"
+                              style={{ width: `${spec.percentage}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm font-medium text-gray-700">{spec.count}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Recent Achievements */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Ostatnie Osiągnięcia</h3>
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Mistrz Strzelania', user: 'Tomasz Zieliński', date: '2 dni temu', type: 'achievement' },
+                      { name: 'Certyfikat Dronów', user: 'Piotr Wiśniewski', date: '5 dni temu', type: 'certification' },
+                      { name: 'Kurs Dowodzenia', user: 'Anna Nowak', date: '1 tydzień temu', type: 'training' },
+                      { name: 'Specjalista IT', user: 'Marcin Lewandowski', date: '2 tygodnie temu', type: 'specialization' }
+                    ].map((achievement, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-gray-900">{achievement.name}</span>
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            achievement.type === 'achievement' ? 'bg-yellow-100 text-yellow-600' :
+                            achievement.type === 'certification' ? 'bg-blue-100 text-blue-600' :
+                            achievement.type === 'training' ? 'bg-green-100 text-green-600' :
+                            'bg-purple-100 text-purple-600'
+                          }`}>
+                            {achievement.type === 'achievement' ? 'Osiągnięcie' :
+                             achievement.type === 'certification' ? 'Certyfikat' :
+                             achievement.type === 'training' ? 'Trening' : 'Specjalizacja'}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600">{achievement.user}</p>
+                        <p className="text-xs text-gray-500">{achievement.date}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

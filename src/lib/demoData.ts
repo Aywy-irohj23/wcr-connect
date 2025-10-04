@@ -50,6 +50,67 @@ export const generateInsaneDemoData = () => {
     }
   ];
 
+  // INSANE Military Unit Chat Data
+  const militaryChatMessages = [
+    {
+      id: 1,
+      sender: 'Kapral Marcin Nowak',
+      message: 'Cześć! Gdzie mogę wymienić buty wojskowe na większy rozmiar? Moje są za małe po ostatnim treningu.',
+      timestamp: new Date(now.getTime() - 2 * 60 * 60 * 1000),
+      type: 'equipment',
+      unit: '1. Batalion'
+    },
+    {
+      id: 2,
+      sender: 'Starszy Kapral Anna Kowalska',
+      message: 'Marcin, idź do kwatermistrza w siedzibie WCR. On zajmuje się wymianą wyposażenia.',
+      timestamp: new Date(now.getTime() - 1.5 * 60 * 60 * 1000),
+      type: 'response',
+      unit: '2. Batalion'
+    },
+    {
+      id: 3,
+      sender: 'Kapral Piotr Wiśniewski',
+      message: 'Ktoś wie gdzie można zgłosić problem z wyposażeniem? Mam problem z plecakiem.',
+      timestamp: new Date(now.getTime() - 1 * 60 * 60 * 1000),
+      type: 'equipment',
+      unit: '1. Batalion'
+    },
+    {
+      id: 4,
+      sender: 'Starszy Kapral Anna Kowalska',
+      message: 'Piotr, idź do kwatermistrza w siedzibie WCR. On zajmuje się wyposażeniem.',
+      timestamp: new Date(now.getTime() - 30 * 60 * 1000),
+      type: 'response',
+      unit: '2. Batalion'
+    },
+    {
+      id: 5,
+      sender: 'Kapral Tomasz Lewandowski',
+      message: 'Czy ktoś ma informacje o nowym umundurowaniu? Słyszałem o zmianach w rozmiarach.',
+      timestamp: new Date(now.getTime() - 15 * 60 * 1000),
+      type: 'uniform',
+      unit: '3. Batalion'
+    }
+  ];
+
+  // INSANE Equipment and Uniform Data
+  const equipmentData = {
+    availableSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    equipmentTypes: [
+      { type: 'Buty wojskowe', available: 45, requested: 12 },
+      { type: 'Plecaki', available: 32, requested: 8 },
+      { type: 'Kamizelki taktyczne', available: 28, requested: 15 },
+      { type: 'Hełmy', available: 50, requested: 5 },
+      { type: 'Rękawice', available: 100, requested: 25 }
+    ],
+    uniformRequests: [
+      { id: 1, user: 'Marcin Nowak', item: 'Buty wojskowe', size: 'L', status: 'pending', date: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000) },
+      { id: 2, user: 'Piotr Wiśniewski', item: 'Plecak', size: 'M', status: 'approved', date: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000) },
+      { id: 3, user: 'Anna Kowalska', item: 'Kamizelka taktyczna', size: 'S', status: 'pending', date: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000) }
+    ]
+  };
+
   // INSANE Security Events
   const securityEvents = [
     {
@@ -103,6 +164,8 @@ export const generateInsaneDemoData = () => {
   return {
     stats,
     activities,
+    militaryChatMessages,
+    equipmentData,
     securityEvents,
     performance,
     locations,
@@ -137,4 +200,5 @@ export class InsaneDataSimulator {
 }
 
 export const insaneDataSimulator = new InsaneDataSimulator();
+
 
